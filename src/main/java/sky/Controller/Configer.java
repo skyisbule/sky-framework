@@ -5,13 +5,13 @@ package sky.Controller;
  * 读取配置文件进行初始化
  */
 public interface Configer {
-    String CONFIG_FILE = "sky.propertises";
-    String JDBC_DRIVER = "sky.jdbc.driver";
-    String JDBC_URL = "sky.jdbc.url";
-    String JDBC_USERNAME = "sky.jdbc.username";
-    String JDBC_PASSWORD = "sky.jdbc.password";
+    String CONFIG_FILE = "sky";
+    String JDBC_DRIVER = "com.mysql.Driver";
+    String JDBC_URL = "jdbc:mysql://locallhost:3306/sky";
+    String JDBC_USERNAME = "root";
+    String JDBC_PASSWORD = "111111";
 
-    String APP_BASE_PACKAGE = "sky.app.base_package";
-    String APP_JSP_PATH = "sky.app.jsp_path";
-    String APP_ASSET_PATH = "sky.app.asset_path";
+    String APP_BASE_PACKAGE = "sky";
+    String APP_JSP_PATH = "/WEB-INF/view/";
+    String APP_ASSET_PATH = "/asset/";
 }
