@@ -7,6 +7,7 @@ import org.skyisbule.framwork.mvc.utils.ReflectProcessor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -50,8 +51,12 @@ public class HandlerMapping {
             if (urlmethod.getReturnType().getName().equals("java.lang.String")) {
                 //获取要返回的html文件
                 String fileName = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params).toString();
-                resp.getWriter().print("hello");
-                //req.getRequestDispatcher(DspatcherServlet.proPath+"/templates/" + fileName + ".html").forward(req, resp);
+                //resp.getWriter().print("hello");
+
+                File test = new File(DspatcherServlet.proPath+"templates/" + fileName + ".jsp");
+
+                System.out.println(test.exists());
+                req.getRequestDispatcher(DspatcherServlet.proPath+"templates/" + fileName + ".jsp").forward(req, resp);
                 return;
 
             //ajax接口处理

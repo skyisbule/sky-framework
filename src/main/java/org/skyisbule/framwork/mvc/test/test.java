@@ -8,7 +8,6 @@ import org.skyisbule.framwork.mvc.structure.RequestMethod;
 
 import org.skyisbule.framwork.mvc.structure.Data;
 
-
 @Controller
 public class test {
 
@@ -16,7 +15,7 @@ public class test {
     @MapURL(value = "/get",RequestMethod = RequestMethod.GET)
     public String get(Data data){
         System.out.println(data.getKey("sky"));
-        return "demo";
+        return "show";
     }
 
     @MapURL(value="foward")

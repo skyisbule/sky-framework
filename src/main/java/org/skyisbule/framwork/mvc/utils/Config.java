@@ -17,7 +17,7 @@ public class Config {
     public static String getProPath() {
         String path = getPath();
         path = path.replace("file:", "");
-        //System.out.println(path);
+        System.out.println(path);
         return path;
     }
 

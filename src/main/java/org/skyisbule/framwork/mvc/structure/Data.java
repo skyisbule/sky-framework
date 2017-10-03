@@ -5,7 +5,6 @@ import java.util.Map;
 /**
  * Created by skyisbule on 2017/10/3.
  * 用来处理用户请求值
- * 因为存在复选框或者一个name对应多个value的情况，所以使用String[]
  */
 public class Data {
     public Map<String,String[]> data=null;
