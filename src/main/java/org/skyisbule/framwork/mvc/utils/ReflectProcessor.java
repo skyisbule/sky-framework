@@ -24,6 +24,7 @@ public class ReflectProcessor {
         o = method.invoke(obj,value);
         return o;
         */
+
         Object o = null;
         final Object obj = clazz.getConstructor(new Class[] {}).newInstance(new Object[] {});
         o = method.invoke(obj,new Data(map));

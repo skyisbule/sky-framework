@@ -1,6 +1,7 @@
 
 package org.skyisbule.framwork.mvc.servlet;
 
+import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.skyisbule.framwork.mvc.classcollection.ClassCollection;
 
 import org.skyisbule.framwork.mvc.param.HandlerMapping;
@@ -35,16 +36,18 @@ public class DspatcherServlet extends HttpServlet {
 		ClassCollection.scanClassSetByPackage(Config.getAnnoClassConfig("base-package"));//初始化配置下的 @Controller类
 		methodProMap = ClassCollection.getMethodMap();//拿到封装的每个类方法的属性
 		classMap=ClassCollection.getClassMap();//拿到每个url对应的类
-		System.out.println("初始化成功！");
+		System.out.println("初始化成功！\n以下路由被成功加载");
+		methodProMap.forEach((k,v)->System.out.println("url:"+k));
+
 	}
 
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 		String pathInfo=req.getRequestURI();
+		System.out.println("pathinfo:"+pathInfo);
 		String key = req.getRequestURI();
 		if (methodProMap.containsKey(key)) {
-			//System.out.println("success");
 			HandlerMapping.HandlerMapping(req,resp,methodProMap,key,classMap.get(key));//转发到映射器进行映射处理
 			return ;
 

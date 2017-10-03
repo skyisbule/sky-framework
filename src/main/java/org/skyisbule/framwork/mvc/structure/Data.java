@@ -22,6 +22,7 @@ public class Data {
     }
 
     public String getKey(String key){
-        return data.get(key)[0];
+        return data.containsKey(key)?
+                data.get(key)[0]: "没有找到该请求值："+key;
     }
 }

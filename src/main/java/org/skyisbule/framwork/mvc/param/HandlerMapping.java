@@ -3,8 +3,10 @@ package org.skyisbule.framwork.mvc.param;
 import org.skyisbule.framwork.mvc.servlet.DspatcherServlet;
 import org.skyisbule.framwork.mvc.structure.MethodPro;
 import org.skyisbule.framwork.mvc.utils.CollectionUtils;
+import org.skyisbule.framwork.mvc.utils.Config;
 import org.skyisbule.framwork.mvc.utils.ReflectProcessor;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -14,6 +16,7 @@ import java.util.Map;
 
 /**
  * Created by skyisbule on 2017/10/1.
+ * @HandlerMapping 用于处理中心servlet转发来的请求
  */
 public class HandlerMapping {
 
@@ -53,14 +56,22 @@ public class HandlerMapping {
                 String fileName = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params).toString();
                 //resp.getWriter().print("hello");
 
-                File test = new File(DspatcherServlet.proPath+"templates/" + fileName + ".jsp");
-
-                System.out.println(test.exists());
-                req.getRequestDispatcher(DspatcherServlet.proPath+"templates/" + fileName + ".jsp").forward(req, resp);
+                //查看文件
+                /*
+                File jsp = new File(DspatcherServlet.proPath+"templates/" + fileName + ".jsp");
+                if (!jsp.exists()){
+                    System.out.println("jsp文件不存在");
+                    resp.sendError(404);
+                }*/
+                RequestDispatcher dispatcher =  req.getRequestDispatcher("/jsp/show.jsp");
+                dispatcher.forward(req, resp);
+                //resp.getWriter().print("emmm");
+                //resp.sendRedirect("/jsp/show.jsp");
                 return;
 
             //ajax接口处理
             } else if (methodProMap.get(key).getAjax()) {
+                System.out.println(req.getServletPath());
                 Object o = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params);
                 resp.getWriter().print(o);
                 return;

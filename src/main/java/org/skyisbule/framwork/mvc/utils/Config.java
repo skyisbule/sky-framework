@@ -10,14 +10,15 @@ import java.util.Scanner;
 
 /**
  * Created by skyisbule on 2017/10/1.
+ * @getProPath 获取整个项目的目录名
+ * @getAnnoClassConfig 读取ini配置文件
  */
 public class Config {
-
 
     public static String getProPath() {
         String path = getPath();
         path = path.replace("file:", "");
-        System.out.println(path);
+        //System.out.println(path);
         return path;
     }
 

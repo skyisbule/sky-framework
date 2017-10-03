@@ -23,11 +23,21 @@ public class test {
         return "page/succ";
     }
 
-    @MapURL(value = "", RequestMethod = RequestMethod.GET)
+    @MapURL(value = "/", RequestMethod = RequestMethod.GET)
     @ResponseBody
-    public JSONObject getUser(){
+    public JSONObject getUser(Data data){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userid",1);
+        return jsonObject;
+
+    }
+
+    @MapURL(value = "/a", RequestMethod = RequestMethod.GET)
+    @ResponseBody
+    public JSONObject getaUser(Data data){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("userid",1);
+        System.out.println("successsssssss");
         return jsonObject;
 
     }

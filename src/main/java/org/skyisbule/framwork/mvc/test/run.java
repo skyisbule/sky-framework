@@ -21,16 +21,18 @@ public class run {
     static final String docBase = "C:\\Users\\ZDNF\\Desktop\\AisMVC-master\\target\\classes\\templates";
     //C:\Users\ZDNF\Desktop\AisMVC-master\target\classes\templates
     //webApp存放路径
-    static final String jspPath = Config.getProPath()+"templates/work/Tomcat/localhost/ROOT";
+    static final String jspPath = "C:\\Users\\ZDNF\\Desktop\\AisMVC-master\\target\\classes\\templates";
     public static void main(String[] args) throws Exception {
-        System.out.println(jspPath);
         Tomcat tomcat = new Tomcat();
+        //端口号
         tomcat.setPort(port);
+        //tomcat目录
         tomcat.setBaseDir(docBase);
         tomcat.getHost().setAutoDeploy(false);
+        tomcat.getHost().setAppBase(docBase);
 
-
-        tomcat.getHost().setAppBase("C:\\Users\\ZDNF\\Desktop\\AisMVC-master\\target\\classes\\templates");
+        //设置jsp存放目录
+        tomcat.addWebapp("/jsp",jspPath);
 
         String contextPath = "";
         StandardContext context = new StandardContext();
@@ -41,7 +43,7 @@ public class run {
         tomcat.addServlet(contextPath, "homeServlet", new DspatcherServlet());
         context.addServletMappingDecoded("/*", "homeServlet");
 
-        tomcat.addWebapp("/jsp",jspPath);
+
 
         tomcat.start();
         tomcat.getServer().await();

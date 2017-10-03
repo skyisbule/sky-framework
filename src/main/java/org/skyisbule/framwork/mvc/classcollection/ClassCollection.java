@@ -46,8 +46,6 @@ public class ClassCollection {
                            b = true;
                         }
                         MethodPro mp=new MethodPro(method,mapURL.value(),mapURL.RequestMethod(),b);
-
-                        System.out.println(mapURL.value());
                         methodMap.put(mapURL.value(),mp);
                         classMap.put(mapURL.value(),clazz);
 
