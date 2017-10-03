@@ -1,5 +1,6 @@
 package org.skyisbule.framwork.mvc.param;
 
+import org.apache.catalina.core.StandardContext;
 import org.skyisbule.framwork.mvc.servlet.DspatcherServlet;
 import org.skyisbule.framwork.mvc.structure.MethodPro;
 import org.skyisbule.framwork.mvc.utils.CollectionUtils;
@@ -7,8 +8,11 @@ import org.skyisbule.framwork.mvc.utils.Config;
 import org.skyisbule.framwork.mvc.utils.ReflectProcessor;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletContext;
+
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -23,7 +27,8 @@ public class HandlerMapping {
     public static void  HandlerMapping(HttpServletRequest req,
                                        HttpServletResponse resp,
                                        Map<String,MethodPro> methodProMap,
-                                       String key, Class reqClass) {
+                                       String key, Class reqClass
+                                       ) {
 
         try {
         List<String> paramlist = MethodResolver.getMethodNames(methodProMap.get(key).getMethod().getDeclaringClass().getName(), key);
@@ -63,17 +68,23 @@ public class HandlerMapping {
                     System.out.println("jsp文件不存在");
                     resp.sendError(404);
                 }*/
-                RequestDispatcher dispatcher =  req.getRequestDispatcher("/jsp/show.jsp");
-                dispatcher.forward(req, resp);
-                //resp.getWriter().print("emmm");
+
+
+
+                //req.getRequestDispatcher("/jsp/show.jsp").forward(req,resp);
+
+                 //RequestDispatcher dispatcher =  req.getRequestDispatcher("/jsp/show.jsp");
+                // dispatcher.forward(req, resp);
+                resp.getWriter().print("emmm");
                 //resp.sendRedirect("/jsp/show.jsp");
+
+
                 return;
 
             //ajax接口处理
             } else if (methodProMap.get(key).getAjax()) {
-                System.out.println(req.getServletPath());
                 Object o = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params);
-                resp.getWriter().print(o);
+                resp.getWriter().print("<html><body><strong>cnm</strong></body></html>");
                 return;
             }
 
@@ -83,4 +94,5 @@ public class HandlerMapping {
             e.printStackTrace();
         }
     }
+
 }

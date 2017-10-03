@@ -23,13 +23,12 @@ public class ClassCollection {
     public static Map<String,MethodPro> methodMap;
     public static Set<Class<?>> classSet;
     public static Map<String,Class<?>> classMap;
-    public static void  scanClassSetByPackage(String packageName)
-    {
+    public static void  scanClassSetByPackage(String packageName) {
         methodMap=new HashMap<String, MethodPro>();
         classMap=new HashMap<String, Class<?>>();
         classSet=new HashSet<Class<?>>();
         String filePath= Config.getProPath()+ StringUtils.modifyPackagePath(packageName);
-        //System.out.println("flag:"+StringUtils.modifyPackagePath(packageName));
+        System.out.println("flag:"+StringUtils.modifyPackagePath(packageName));
         FileUtils.getClassSet(filePath,classSet,packageName);
         for(Class<?> clazz:classSet)
         {
@@ -61,9 +60,7 @@ public class ClassCollection {
     }
 
 
-
     public static Map<String, MethodPro> getMethodMap() {
-        //System.out.println(methodMap);
         return methodMap;
     }
 

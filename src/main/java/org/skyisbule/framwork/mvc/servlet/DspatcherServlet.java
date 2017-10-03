@@ -1,7 +1,6 @@
 
 package org.skyisbule.framwork.mvc.servlet;
 
-import org.apache.jasper.tagplugins.jstl.core.ForEach;
 import org.skyisbule.framwork.mvc.classcollection.ClassCollection;
 
 import org.skyisbule.framwork.mvc.param.HandlerMapping;
@@ -21,6 +20,7 @@ import java.util.Map;
  * 所有请求的中心
  **/
 
+
 public class DspatcherServlet extends HttpServlet {
 
 	/**
@@ -32,8 +32,9 @@ public class DspatcherServlet extends HttpServlet {
 	public static String proPath=Config.getProPath();
 	@Override
 	public void init(ServletConfig servletConfig) throws ServletException {
+		System.out.println(proPath);
 		//System.out.println(Config.getAnnoClassConfig("base-package"));
-		ClassCollection.scanClassSetByPackage(Config.getAnnoClassConfig("base-package"));//初始化配置下的 @Controller类
+		//ClassCollection.scanClassSetByPackage(Config.getAnnoClassConfig("base-package"));//初始化配置下的 @Controller类
 		methodProMap = ClassCollection.getMethodMap();//拿到封装的每个类方法的属性
 		classMap=ClassCollection.getClassMap();//拿到每个url对应的类
 		System.out.println("初始化成功！\n以下路由被成功加载");

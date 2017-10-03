@@ -37,7 +37,6 @@ public class test {
     public JSONObject getaUser(Data data){
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("userid",1);
-        System.out.println("successsssssss");
         return jsonObject;
 
     }
