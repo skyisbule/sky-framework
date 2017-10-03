@@ -1,5 +1,6 @@
 package org.skyisbule.framwork.mvc.param;
 
+import org.skyisbule.framwork.mvc.servlet.DspatcherServlet;
 import org.skyisbule.framwork.mvc.structure.MethodPro;
 import org.skyisbule.framwork.mvc.utils.CollectionUtils;
 import org.skyisbule.framwork.mvc.utils.ReflectProcessor;
@@ -15,13 +16,16 @@ import java.util.Map;
  */
 public class HandlerMapping {
 
-    public static void  HandlerMapping(HttpServletRequest req, HttpServletResponse resp, Map<String,MethodPro> methodProMap, String key, Class reqClass) {
+    public static void  HandlerMapping(HttpServletRequest req,
+                                       HttpServletResponse resp,
+                                       Map<String,MethodPro> methodProMap,
+                                       String key, Class reqClass) {
 
         try {
         List<String> paramlist = MethodResolver.getMethodNames(methodProMap.get(key).getMethod().getDeclaringClass().getName(), key);
-        //拿到用户请求变量
-        Map params = req.getParameterMap();
-        //判断应该用哪个处理器
+        //拿到用户请求值
+        Map<String,String[]> params = req.getParameterMap();
+        //判断应该用哪个处理器，即用哪个MapUrl函数进行处理
         MethodPro methodPro = methodProMap.get(key);
         //获取请求
         Method method = methodPro.getMethod();
@@ -37,26 +41,27 @@ public class HandlerMapping {
             if(methodPro.getUrlStyle().equals("POST")){
                     if(!reqtype.equals("POST")) {
                         resp.sendError(405);
-                       // resp.getWriter().print("405 not allowed");
                         return;
                     }
             }
 
             //String返回方法参数类型处理
+            //同时处理GET和POST请求
             if (urlmethod.getReturnType().getName().equals("java.lang.String")) {
-
-                String uri = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue).toString();
-                req.getRequestDispatcher("WEB-INF/" + uri + ".html").forward(req, resp);
+                //获取要返回的html文件
+                String fileName = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params).toString();
+                resp.getWriter().print("hello");
+                //req.getRequestDispatcher(DspatcherServlet.proPath+"/templates/" + fileName + ".html").forward(req, resp);
                 return;
 
             //ajax接口处理
             } else if (methodProMap.get(key).getAjax()) {
-                Object o = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue);
+                Object o = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params);
                 resp.getWriter().print(o);
                 return;
             }
 
-            ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue);
+            ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params);
             return;
         } catch (Exception e) {
             e.printStackTrace();

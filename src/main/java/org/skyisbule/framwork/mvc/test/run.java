@@ -1,7 +1,7 @@
 package org.skyisbule.framwork.mvc.test;
 
 /**
- * Created by ZDNF on 2017/10/2.
+ * Created by skyisbule on 2017/10/2.
  */
 import org.skyisbule.framwork.mvc.servlet.DspatcherServlet;
 import java.io.IOException;
@@ -31,7 +31,7 @@ public class run {
         tomcat.getHost().addChild(context);
 
         tomcat.addServlet(contextPath, "homeServlet", new DspatcherServlet());
-        context.addServletMappingDecoded("", "homeServlet");
+        context.addServletMappingDecoded("/*", "homeServlet");
 
         tomcat.start();
         tomcat.getServer().await();

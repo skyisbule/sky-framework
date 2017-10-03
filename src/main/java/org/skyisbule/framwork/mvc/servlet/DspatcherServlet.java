@@ -9,7 +9,6 @@ import org.skyisbule.framwork.mvc.utils.Config;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,7 +19,7 @@ import java.util.Map;
  * 请求拦截器
  * 所有请求的中心
  **/
-@WebServlet(urlPatterns = "/*",loadOnStartup = 0)
+
 public class DspatcherServlet extends HttpServlet {
 
 	/**
@@ -29,6 +28,7 @@ public class DspatcherServlet extends HttpServlet {
 	 */
 	private Map<String,MethodPro> methodProMap =null;
 	private Map<String,Class<?>> classMap=null;
+	public static String proPath=Config.getProPath();
 	@Override
 	public void init(ServletConfig servletConfig) throws ServletException {
 		//System.out.println(Config.getAnnoClassConfig("base-package"));
@@ -41,10 +41,10 @@ public class DspatcherServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		String pathInfo=req.getServletPath();
-		String key = pathInfo.replaceAll("/", "").split("\\.")[0];
+		String pathInfo=req.getRequestURI();
+		String key = req.getRequestURI();
 		if (methodProMap.containsKey(key)) {
-
+			//System.out.println("success");
 			HandlerMapping.HandlerMapping(req,resp,methodProMap,key,classMap.get(key));//转发到映射器进行映射处理
 			return ;
 
