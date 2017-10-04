@@ -3,36 +3,37 @@ package org.skyisbule.framwork.mvc.servlet;
 /**
  * Created by ZDNF on 2017/10/3.
  */
+import org.skyisbule.framwork.mvc.utils.Config;
+import org.skyisbule.framwork.mvc.utils.FileUtils;
+
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-// 扩展 HttpServlet 类
+
 public class staticServlet extends HttpServlet {
+    @SuppressWarnings("unchecked")
+    private static Map<String,String> staticFile = new HashMap();
 
-    private Map<String,String> staticFile = null;
-
-    private String message;
 
     public void init() throws ServletException {
-        // 执行必需的初始化
-        message = "Hello World";
+        FileUtils.getStaticFile(Config.getProPath()+"static/",staticFile);
     }
 
-    public void doGet(HttpServletRequest request,
-                      HttpServletResponse response)
-            throws ServletException, IOException
-    {
-        // 设置响应内容类型
-        response.setContentType("text/html");
-
-        // 实际的逻辑是在这里
-        PrintWriter out = response.getWriter();
-        out.println("<h1>" + message + "</h1>");
+    public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException{
+        String key = req.getRequestURI().replace("/static","");
+        /*
+        System.out.println(key);
+        for (String k:staticFile.keySet()){
+            System.out.println(k);
+        }*/
+        if (staticFile.containsKey(key)){
+            resp.getWriter().print(staticFile.get(key));
+            return;
+        }
+        resp.sendError(404);
     }
 
-    public void destroy() {
-        // 什么也不做
-    }
 }

@@ -8,6 +8,9 @@ import org.skyisbule.framwork.mvc.structure.RequestMethod;
 
 import org.skyisbule.framwork.mvc.structure.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class test {
 
@@ -15,12 +18,7 @@ public class test {
     @MapURL(value = "/get",RequestMethod = RequestMethod.GET)
     public String get(Data data){
         System.out.println(data.getKey("sky"));
-        return "show";
-    }
-
-    @MapURL(value="foward")
-    public String foward(){
-        return "page/succ";
+        return "demo";
     }
 
     @MapURL(value = "/", RequestMethod = RequestMethod.GET)
@@ -41,5 +39,15 @@ public class test {
 
     }
 
+
+    @MapURL(value = "/b", RequestMethod = RequestMethod.GET)
+    @ResponseBody
+    public String getr(Data data){
+        List<String> k = new ArrayList<>();
+        k.add("sss");
+        k.add("sss");
+        return k.toString();
+
+    }
 
 }

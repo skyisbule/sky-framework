@@ -1,19 +1,16 @@
 package org.skyisbule.framwork.mvc.param;
 
-import org.apache.catalina.core.StandardContext;
-import org.skyisbule.framwork.mvc.servlet.DspatcherServlet;
+
 import org.skyisbule.framwork.mvc.structure.MethodPro;
 import org.skyisbule.framwork.mvc.utils.CollectionUtils;
-import org.skyisbule.framwork.mvc.utils.Config;
 import org.skyisbule.framwork.mvc.utils.ReflectProcessor;
+import org.skyisbule.framwork.mvc.sky;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.ServletContext;
 
-import java.io.File;
+
+
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +25,7 @@ public class HandlerMapping {
                                        HttpServletResponse resp,
                                        Map<String,MethodPro> methodProMap,
                                        String key, Class reqClass
-                                       ) {
+                                        ) {
 
         try {
         List<String> paramlist = MethodResolver.getMethodNames(methodProMap.get(key).getMethod().getDeclaringClass().getName(), key);
@@ -56,35 +53,26 @@ public class HandlerMapping {
 
             //String返回方法参数类型处理
             //同时处理GET和POST请求
-            if (urlmethod.getReturnType().getName().equals("java.lang.String")) {
+            if (urlmethod.getReturnType().getName().equals("java.lang.String")&&!methodProMap.get(key).getAjax()) {
                 //获取要返回的html文件
                 String fileName = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params).toString();
-                //resp.getWriter().print("hello");
-
-                //查看文件
-                /*
-                File jsp = new File(DspatcherServlet.proPath+"templates/" + fileName + ".jsp");
-                if (!jsp.exists()){
-                    System.out.println("jsp文件不存在");
-                    resp.sendError(404);
-                }*/
 
 
+                if (sky.htmlMap.containsKey(fileName)){
+                    resp.getWriter().print(sky.htmlMap.get(fileName));
+                    return;
+                }
 
-                //req.getRequestDispatcher("/jsp/show.jsp").forward(req,resp);
+                resp.sendError(404);
 
-                 //RequestDispatcher dispatcher =  req.getRequestDispatcher("/jsp/show.jsp");
-                // dispatcher.forward(req, resp);
-                resp.getWriter().print("emmm");
-                //resp.sendRedirect("/jsp/show.jsp");
-
+                System.out.println("html文件不存在");
 
                 return;
 
             //ajax接口处理
             } else if (methodProMap.get(key).getAjax()) {
                 Object o = ReflectProcessor.parseMethod(method,reqClass, key, invokeParamVulue,params);
-                resp.getWriter().print("<html><body><strong>cnm</strong></body></html>");
+                resp.getWriter().print(o);
                 return;
             }
 

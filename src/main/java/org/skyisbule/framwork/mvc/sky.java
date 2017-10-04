@@ -27,8 +27,9 @@ import java.util.Set;
 public class sky {
 
     private  Map<String,MethodPro> methodMap;
-    private  Set<Class<?>> classSet;
-    private  Map<String,Class<?>> classMap;
+    private  Set<Class<?>>         classSet;
+    private  Map<String,Class<?>>  classMap;
+    public static Map<String,String> htmlMap;
 
     private int port = 81;
     //Tomcat工作缓存区，相当于安装板的root目录所在地，在这里放在工程目录下。
@@ -36,6 +37,7 @@ public class sky {
 
 
 
+    @SuppressWarnings("unchecked")
     public void init(){
         ClassCollection.scanClassSetByPackage(Config.getAnnoClassConfig("base-package"));
         this.methodMap=ClassCollection.getMethodMap();
@@ -43,6 +45,7 @@ public class sky {
         this.classSet = ClassCollection.getClassSet();
         FileUtils.makDir(Config.getProPath(),"templates");
         FileUtils.makDir(Config.getProPath(),"static");
+        htmlMap=FileUtils.getHtml(Config.getProPath()+"templates\\");
     }
 
     public Map getMethodMap(){return this.methodMap;}
@@ -76,11 +79,11 @@ public class sky {
         tomcat.getHost().addChild(context);
 
         tomcat.addServlet(contextPath, "homeServlet", new DspatcherServlet());
-        context.addServletMappingDecoded("/a", "homeServlet");
-        context.addServletMappingDecoded("/get", "homeServlet");
+        context.addServletMappingDecoded("/*", "homeServlet");
+
 
         tomcat.addServlet("","initServlet",new staticServlet());
-        context.addServletMappingDecoded("/aa","initServlet");
+        context.addServletMappingDecoded("/static/*","initServlet");
 
         tomcat.start();
         tomcat.getServer().await();

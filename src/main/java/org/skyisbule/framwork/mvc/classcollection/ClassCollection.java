@@ -20,9 +20,9 @@ import java.util.Set;
  * Created by skyisbule on 2017/10/1.
  */
 public class ClassCollection {
-    public static Map<String,MethodPro> methodMap;
-    public static Set<Class<?>> classSet;
-    public static Map<String,Class<?>> classMap;
+    private static Map<String,MethodPro> methodMap;
+    private static Set<Class<?>> classSet;
+    private static Map<String,Class<?>> classMap;
     public static void  scanClassSetByPackage(String packageName) {
         methodMap=new HashMap<String, MethodPro>();
         classMap=new HashMap<String, Class<?>>();

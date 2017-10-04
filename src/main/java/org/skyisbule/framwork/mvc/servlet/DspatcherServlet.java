@@ -6,6 +6,7 @@ import org.skyisbule.framwork.mvc.classcollection.ClassCollection;
 import org.skyisbule.framwork.mvc.param.HandlerMapping;
 import org.skyisbule.framwork.mvc.structure.MethodPro;
 import org.skyisbule.framwork.mvc.utils.Config;
+import org.skyisbule.framwork.mvc.utils.FileUtils;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -29,13 +30,14 @@ public class DspatcherServlet extends HttpServlet {
 	 */
 	private Map<String,MethodPro> methodProMap =null;
 	private Map<String,Class<?>> classMap=null;
-	private Map<String,String> htmlMap = null;
+	private Map htmlMap = null;
 
 	@Override
-	public void init(ServletConfig servletConfig) throws ServletException {
+	public void init(ServletConfig servletConfig) throws ServletException,NullPointerException{
 		//ClassCollection.scanClassSetByPackage(Config.getAnnoClassConfig("base-package"));//初始化配置下的 @Controller类
 		methodProMap = ClassCollection.getMethodMap();//拿到封装的每个类方法的属性
 		classMap=ClassCollection.getClassMap();//拿到每个url对应的类
+		htmlMap= FileUtils.getHtml(Config.getPath()+"templates");//拿到每个html文件的内容
 		System.out.println("初始化成功！\n以下路由被成功加载");
 		methodProMap.forEach((k,v)->System.out.println("url:"+k));
 
