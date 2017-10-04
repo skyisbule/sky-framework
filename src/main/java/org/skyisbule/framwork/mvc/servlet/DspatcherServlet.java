@@ -29,11 +29,10 @@ public class DspatcherServlet extends HttpServlet {
 	 */
 	private Map<String,MethodPro> methodProMap =null;
 	private Map<String,Class<?>> classMap=null;
-	public static String proPath=Config.getProPath();
+	private Map<String,String> htmlMap = null;
+
 	@Override
 	public void init(ServletConfig servletConfig) throws ServletException {
-		System.out.println(proPath);
-		//System.out.println(Config.getAnnoClassConfig("base-package"));
 		//ClassCollection.scanClassSetByPackage(Config.getAnnoClassConfig("base-package"));//初始化配置下的 @Controller类
 		methodProMap = ClassCollection.getMethodMap();//拿到封装的每个类方法的属性
 		classMap=ClassCollection.getClassMap();//拿到每个url对应的类

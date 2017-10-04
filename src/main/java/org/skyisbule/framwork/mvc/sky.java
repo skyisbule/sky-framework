@@ -8,10 +8,16 @@ import javax.servlet.ServletException;
 import org.apache.catalina.core.StandardContext;
 import org.apache.catalina.startup.Tomcat;
 import org.apache.catalina.startup.Tomcat.FixContextListener;
+import org.skyisbule.framwork.mvc.structure.MethodPro;
 import org.skyisbule.framwork.mvc.utils.Config;
 
+import org.skyisbule.framwork.mvc.utils.FileUtils;
 import org.skyisbule.framwork.mvc.utils.doGet;
-import org.skyisbule.framwork.mvc.servlet.testServlet;
+import org.skyisbule.framwork.mvc.servlet.staticServlet;
+
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Created by skyisbule on 2017/10/3.
  * 整个框架的启动器
@@ -19,6 +25,10 @@ import org.skyisbule.framwork.mvc.servlet.testServlet;
 
 
 public class sky {
+
+    private  Map<String,MethodPro> methodMap;
+    private  Set<Class<?>> classSet;
+    private  Map<String,Class<?>> classMap;
 
     private int port = 81;
     //Tomcat工作缓存区，相当于安装板的root目录所在地，在这里放在工程目录下。
@@ -28,15 +38,24 @@ public class sky {
 
     public void init(){
         ClassCollection.scanClassSetByPackage(Config.getAnnoClassConfig("base-package"));
+        this.methodMap=ClassCollection.getMethodMap();
+        this.classMap =ClassCollection.getClassMap();
+        this.classSet = ClassCollection.getClassSet();
+        FileUtils.makDir(Config.getProPath(),"templates");
+        FileUtils.makDir(Config.getProPath(),"static");
     }
 
-    public static sky me(){
-        return new sky();
-    }
+    public Map getMethodMap(){return this.methodMap;}
+    public Set getClassSet(){return this.classSet;}
+    public Map getClassMap(){return this.classMap;}
 
     public void setPort(int port){this.port=port;}
 
     public void get(String url,doGet get){}
+
+    public static sky me(){
+        return new sky();
+    }
 
     public void start() throws ServletException, LifecycleException {
         Tomcat tomcat = new Tomcat();
@@ -60,7 +79,7 @@ public class sky {
         context.addServletMappingDecoded("/a", "homeServlet");
         context.addServletMappingDecoded("/get", "homeServlet");
 
-        tomcat.addServlet("","initServlet",new testServlet());
+        tomcat.addServlet("","initServlet",new staticServlet());
         context.addServletMappingDecoded("/aa","initServlet");
 
         tomcat.start();

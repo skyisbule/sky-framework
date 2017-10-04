@@ -28,7 +28,8 @@ public class ClassCollection {
         classMap=new HashMap<String, Class<?>>();
         classSet=new HashSet<Class<?>>();
         String filePath= Config.getProPath()+ StringUtils.modifyPackagePath(packageName);
-        System.out.println("flag:"+StringUtils.modifyPackagePath(packageName));
+
+
         FileUtils.getClassSet(filePath,classSet,packageName);
         for(Class<?> clazz:classSet)
         {
@@ -47,7 +48,6 @@ public class ClassCollection {
                         MethodPro mp=new MethodPro(method,mapURL.value(),mapURL.RequestMethod(),b);
                         methodMap.put(mapURL.value(),mp);
                         classMap.put(mapURL.value(),clazz);
-
                     }
 
                 }
