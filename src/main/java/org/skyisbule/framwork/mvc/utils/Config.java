@@ -18,14 +18,12 @@ public class Config {
     public static String getProPath() {
         String path = getPath();
         path = path.replace("file:", "");
-        //System.out.println(path);
         return path;
     }
 
 
 
     public static String getPath() {
-       // String path = Thread.currentThread().getContextClassLoader().getResource("").toString();
        String path=Config.class.getClassLoader().getResource("").toString();
         return path;
     }
@@ -34,9 +32,15 @@ public class Config {
 
     public static String getAnnoClassConfig(String source) {
         String path = getProPath();
-        File file = new File(path + File.separator + "config.ini");
+        File file = new File(path + File.separator + "config1.ini");
         if (!file.exists()) {
             System.out.println("没有找到config.ini文件，默认扫描所有类");
+            String[] files = new File(path).list();
+            for (String temp:files){
+                if (temp.equals("templates")|temp.equals("static"))
+                    continue;
+                return temp;
+            }
             return  "";
         }
         Scanner sc = null;

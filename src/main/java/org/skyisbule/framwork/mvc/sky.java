@@ -82,8 +82,8 @@ public class sky {
         context.addServletMappingDecoded("/*", "homeServlet");
 
 
-        tomcat.addServlet("","initServlet",new staticServlet());
-        context.addServletMappingDecoded("/static/*","initServlet");
+        tomcat.addServlet("","staticServlet",new staticServlet());
+        context.addServletMappingDecoded("/static/*","staticServlet");
 
         tomcat.start();
         tomcat.getServer().await();
